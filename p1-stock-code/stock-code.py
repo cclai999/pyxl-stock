@@ -1,18 +1,10 @@
-import requests
 import pandas as pd
-
 from openpyxl import load_workbook
+
+from tools import get_html_to_file
 
 url1 = "https://isin.twse.com.tw/isin/class_main.jsp?owncode=&stockname=&isincode=&market=1&issuetype=1&industry_code=&Page=1&chklike=Y"
 url2 = "https://isin.twse.com.tw/isin/class_main.jsp?owncode=&stockname=&isincode=&market=2&issuetype=4&industry_code=&Page=1&chklike=Y"
-
-
-def get_html_to_file(url:str, fname: str):
-    resp = requests.get(url)
-    resp.raise_for_status()
-    f = open(fname, "w")
-    f.write(resp.text)
-    f.close()
 
 
 def get_stock_code(html_fname):
@@ -32,9 +24,14 @@ def insert_stock_code_to_excel(stk_df, stk_code_sheet):
         stk_code_sheet.append(r)
 
 
+def recod_html():
+    get_html_to_file(url1, "stk_code1_html.txt")
+    get_html_to_file(url2, "stk_code2_html.txt")
+
+
 if __name__ == '__main__':
-    # get_html_to_file(url1, "stk_code1_html.txt")
-    # get_html_to_file(url2, "stk_code2_html.txt")
+    if 1 == 2:
+        recod_html()
     workbook = load_workbook(filename="stock_code_blank.xlsx")
     stk_code_sheet = workbook["stk_code"]
 
